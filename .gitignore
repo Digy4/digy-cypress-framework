@@ -37,3 +37,5 @@ test-output/reports
 #Folder to download scenarios from xray
 src/test/resources/features/sample/
 .metadata
+
+node_modules/
