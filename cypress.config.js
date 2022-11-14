@@ -31,6 +31,7 @@ module.exports = defineConfig({
     specPattern: "**/*.feature",
     async setupNodeEvents(on, config) {
       const DigyRunner = require("./lib/DigyRunner.js")
+      const DigyUtils = require("./lib/DigyUtils.js")
       const { v4: uuidv4 } = require('uuid')
 
       await addCucumberPreprocessorPlugin(on, config)
@@ -43,6 +44,7 @@ module.exports = defineConfig({
       )
 
       on('before:run', (spec) => {
+        /*
         config.env.BUILD_ID = process.env.BUILD_ID;
         DigyRunner.init({
           id: uuidv4(),
@@ -58,17 +60,23 @@ module.exports = defineConfig({
           ba: `${config.env.BA}`,
           developer: `${config.env.DEVELOPER}`
         }, spec, config.env);
-        
+        */
       })
       
       on('after:spec', async (spec, results) => {
-        DigyRunner.sendResult(config.env, results)
+        // generate sessionId
+        // DigyRunner.sendResult(config.env, results) // pass in sessionId
+        // DigyUtils.uploadInfo()
+
+        console.log(JSON.stringify(results))
       })
 
       on('after:run', async (results) => {
+        /*
         DigyRunner.testResultSummary.passedCount = results.totalPassed
         DigyRunner.testResultSummary.failedCount = results.totalFailed
         await DigyRunner.sendResultSummary(config.env, 'Completed')
+        */
       })
 
       return config
