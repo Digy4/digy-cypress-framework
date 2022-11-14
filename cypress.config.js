@@ -57,7 +57,7 @@ module.exports = defineConfig({
       })
       
       on('after:spec', async (spec, results) => {
-        // DigyRunner.sendResult(config.env, results)
+        DigyRunner.sendResult(config.env, results)
       })
 
       on('after:run', async (results) => {

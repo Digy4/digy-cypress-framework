@@ -5,8 +5,8 @@
 
 ## How to run
 * Run `npm run cy:open` for GUI test suite
-* (Windows) Run `set "BUILD_ID=<id>" && npm run cy:run:<browser>` where <browser> is chrome | edge | firefox 
-* (Mac) Run `BUILD_ID=<id> npm run cy:run:<browser>` where <browser> is chrome | edge | firefox 
+* (Windows) Run `set "BUILD_ID=<id>" && npm run cy:run:<browser>` where <browser> id is chrome | edge | firefox 
+* (Mac) Run `BUILD_ID=<id> npm run cy:run:<browser>` where <browser> id is chrome | edge | firefox 
 
 ## Where to add tests and step-definitions
 * All tests right now must be BDD (cucumber), mocha support will be added later on
