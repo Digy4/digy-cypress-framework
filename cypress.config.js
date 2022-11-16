@@ -69,9 +69,11 @@ module.exports = defineConfig({
         
         const sessionId = uuidv4()
         DigyRunner.sendResult(config.env, results, sessionId) 
-        DigyUtils.videosPath = config.videosFolder
-        await DigyUtils.uploadInfo(results, sessionId, config.env.REGION)
-
+        
+        if (DigyRunner.metaData.browserName !== 'firefox') {
+          DigyUtils.videosPath = config.videosFolder
+          await DigyUtils.uploadInfo(results, sessionId, config.env.REGION)
+        }
       })
 
       on('after:run', async (results) => {

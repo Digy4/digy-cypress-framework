@@ -2,12 +2,10 @@ import {Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 const goToUrl = (urlStr) => {
   cy.visit(urlStr)
-  cy.wait(3000)
 };
 
 const scrollToElement = async (selector) => {
   cy.get(`${selector}`).scrollIntoView({block: "center"})
-  cy.wait(3000)
 }
 
 const clickElement = async (selector) => {
@@ -22,32 +20,26 @@ const moveToElement = async (selector) => {
 
 const selectByValue = async (attrVal, selector) => {
   cy.get(`${selector}`).select(attrVal)
-  cy.wait(3000)
 };
 
 const setKeys = async (key, selector) => {
-  cy.get(`${selector}`).type(key)
-  cy.wait(3000)
+  cy.get(`${selector}`).focus().type(key, {force: true}) // added focus and force:true because Firefox
 };
 
 const urlContains = async (urlSubstring) => {
   cy.url().should('include', urlSubstring)
-  cy.wait(3000)
 };
 
 const urlNotContains = async (urlSubstring) => {
   cy.url().should('not.include', urlSubstring)
-  cy.wait(3000)
 };
 
 const expectElement = async (selector, content) => {
   cy.get(`${selector}=${content}`)
-  cy.wait(3000)
 }
 
 const expectElementPartial = async (selector, content) => {
   cy.get(`${selector}*=${content}`)
-  cy.wait(3000)
 }
 
 Given(/^I am in "([^"]*)?"$/, goToUrl);
