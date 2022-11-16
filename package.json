@@ -17,6 +17,7 @@
     "@badeball/cypress-cucumber-preprocessor": "^14.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
     "cypress": "^11.0.1",
+    "fs": "^0.0.1-security",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

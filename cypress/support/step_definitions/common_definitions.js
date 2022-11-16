@@ -11,7 +11,7 @@ const scrollToElement = async (selector) => {
 }
 
 const clickElement = async (selector) => {
-  cy.get(`${selector}`).click()
+  cy.get(`${selector}`).first().click()
 }
 
 /*

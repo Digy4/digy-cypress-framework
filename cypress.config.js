@@ -9,7 +9,9 @@ const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-pr
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  videosFolder: "cypress/videos",
   env: {
+    REGION: "us-east-2",
     PROTOCOL: "http",
     HOSTNAME: "localhost",
     PORT: 4444,
@@ -44,7 +46,7 @@ module.exports = defineConfig({
       )
 
       on('before:run', (spec) => {
-        /*
+        
         config.env.BUILD_ID = process.env.BUILD_ID;
         DigyRunner.init({
           id: uuidv4(),
@@ -60,23 +62,24 @@ module.exports = defineConfig({
           ba: `${config.env.BA}`,
           developer: `${config.env.DEVELOPER}`
         }, spec, config.env);
-        */
+        
       })
       
       on('after:spec', async (spec, results) => {
-        // generate sessionId
-        // DigyRunner.sendResult(config.env, results) // pass in sessionId
-        // DigyUtils.uploadInfo()
+        
+        const sessionId = uuidv4()
+        DigyRunner.sendResult(config.env, results, sessionId) 
+        DigyUtils.videosPath = config.videosFolder
+        await DigyUtils.uploadInfo(results, sessionId, config.env.REGION)
 
-        console.log(JSON.stringify(results))
       })
 
       on('after:run', async (results) => {
-        /*
+        
         DigyRunner.testResultSummary.passedCount = results.totalPassed
         DigyRunner.testResultSummary.failedCount = results.totalFailed
         await DigyRunner.sendResultSummary(config.env, 'Completed')
-        */
+        
       })
 
       return config
