@@ -9,6 +9,7 @@ const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-pr
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  projectId: 'gqdtwu',
   videosFolder: "cypress/videos",
   env: {
     REGION: "us-east-2",
@@ -68,8 +69,9 @@ module.exports = defineConfig({
       on('after:spec', async (spec, results) => {
         
         const sessionId = uuidv4()
-        DigyRunner.sendResult(config.env, results, sessionId) 
-        
+        DigyRunner.sendResult(config.env, results, sessionId)
+
+        // video not supported in firefox
         if (DigyRunner.metaData.browserName !== 'firefox') {
           DigyUtils.videosPath = config.videosFolder
           await DigyUtils.uploadInfo(results, sessionId, config.env.REGION)

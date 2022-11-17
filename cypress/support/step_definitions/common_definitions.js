@@ -2,14 +2,17 @@ import {Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 const goToUrl = (urlStr) => {
   cy.visit(urlStr)
+  cy.screenshot()
 };
 
 const scrollToElement = async (selector) => {
   cy.get(`${selector}`).scrollIntoView({block: "center"})
+  cy.screenshot()
 }
 
 const clickElement = async (selector) => {
   cy.get(`${selector}`).first().click()
+  cy.screenshot()
 }
 
 /*
@@ -20,10 +23,12 @@ const moveToElement = async (selector) => {
 
 const selectByValue = async (attrVal, selector) => {
   cy.get(`${selector}`).select(attrVal)
+  cy.screenshot()
 };
 
 const setKeys = async (key, selector) => {
   cy.get(`${selector}`).focus().type(key, {force: true}) // added focus and force:true because Firefox
+  cy.screenshot()
 };
 
 const urlContains = async (urlSubstring) => {
