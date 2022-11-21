@@ -22,7 +22,7 @@ module.exports = defineConfig({
     SUITE_NAME: "Regression",
     APP_VERSION: "2.0",
     ENVIRONMENT: "test",
-    FRAMEWORK: "cucumber",
+    FRAMEWORK: "cypress", // don't change
     MODULE_NAME: "SomeModuleName",
     TESTER: "Joe Bloggs",
     BA: "Joe Bloggs",
