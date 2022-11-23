@@ -18,3 +18,18 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// TODO: move this in a separate file inside of the support folder 
+let logs = ''
+afterEach(() => {
+  // TODO: make this configurable in cypress.config env
+  cy.screenshot()
+  cy.task('generate_sessionid', {}).then((sessionId) => {
+    cy.writeFile(`cypress/logs/${sessionId}.txt`, logs)
+  }).then(() => logs = '')
+})
+
+Cypress.on('log:added', (log) => { // wouldn't logs get muddled with other tests in parallel execution?
+  const message = `[${log.wallClockStartedAt}] [${log.instrument.toUpperCase()}] ${log.consoleProps.Command}${log.message ? `: log.message` : ``}\n`
+  logs += message
+})

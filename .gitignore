@@ -41,3 +41,4 @@ src/test/resources/features/sample/
 node_modules/
 cypress/screenshots/
 cypress/videos/
+cypress/logs/

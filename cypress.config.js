@@ -36,6 +36,16 @@ module.exports = defineConfig({
       const DigyRunner = require("./lib/DigyRunner.js")
       const DigyUtils = require("./lib/DigyUtils.js")
       const { v4: uuidv4 } = require('uuid')
+      const fs = require('fs')
+
+      const sessionIds = []
+      const errHandler = (err) => {
+        if (err) {
+          console.log("SOMETHING WENT WRONG WRITING THE FILE: ", err);
+          return;
+        }
+        console.log("SOMETHING WENT WRONG WRITING THE FILE AND I DON'T KNOW WHAT");
+      };
 
       await addCucumberPreprocessorPlugin(on, config)
 
@@ -46,9 +56,20 @@ module.exports = defineConfig({
         })
       )
 
+      on('task', { // this would break if it ran on parallel execution
+        generate_sessionid(arg) {
+          const sessionId = uuidv4() 
+          sessionIds.push(sessionId)
+          return sessionId
+        }
+      })
+
       on('before:run', (spec) => {
         
         config.env.BUILD_ID = process.env.BUILD_ID;
+        if (!config.env.BUILD_ID) {
+          throw 'BUILD_ID undefined'
+        }
         DigyRunner.init({
           id: uuidv4(),
           projectName: `${config.env.PROJECT_NAME}`,
@@ -68,17 +89,28 @@ module.exports = defineConfig({
       
       on('after:spec', async (spec, results) => {
         
-        const sessionId = uuidv4()
+        const sessionId = sessionIds[sessionIds.length - 1] // would break with parallel execution
         DigyRunner.sendResult(config.env, results, sessionId)
+
+        const s3Client = await DigyUtils.setupS3(config.env.REGION)
+        await DigyUtils.uploadConsoleLogs(s3Client, sessionId)
+        await DigyUtils.uploadScreenshot(results, sessionId, s3Client)
 
         // video not supported in firefox
         if (DigyRunner.metaData.browserName !== 'firefox') {
           DigyUtils.videosPath = config.videosFolder
-          await DigyUtils.uploadInfo(results, sessionId, config.env.REGION)
+          await DigyUtils.uploadVideo(results, sessionId, s3Client)
         }
+
       })
 
       on('after:run', async (results) => {
+        
+        const sessionIdsPayload = {
+          SESSION_IDS: sessionIds
+        }
+        const sessionIdsJson = JSON.stringify(sessionIdsPayload)
+        fs.writeFileSync(`./lib/sessionIds.json`, sessionIdsJson, errHandler)
         
         DigyRunner.testResultSummary.passedCount = results.totalPassed
         DigyRunner.testResultSummary.failedCount = results.totalFailed
