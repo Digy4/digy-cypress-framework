@@ -7,15 +7,14 @@ const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
 const { defineConfig } = require("cypress");
+const dotenv = require('dotenv').config({ path: `./.env` })
 
 module.exports = defineConfig({
-  projectId: 'gqdtwu',
   videosFolder: "cypress/videos",
   env: {
-    REGION: "us-east-2",
+    REGION: ``,
     PROTOCOL: "http",
     HOSTNAME: "localhost",
-    PORT: 4444,
     PROJECT_NAME: "CypressProj",
     TEAM_NAME: "Team Cypress",
     BUILD_ID: "",
@@ -27,8 +26,8 @@ module.exports = defineConfig({
     TESTER: "Joe Bloggs",
     BA: "Joe Bloggs",
     DEVELOPER: "Joe Bloggs",
-    RESULTS_SUMMARY_URL: "https://hjkaxoe2zh.execute-api.us-east-2.amazonaws.com/digykube-dev-ht/v3/resultsSummary",
-    RESULTS_URL: "https://hjkaxoe2zh.execute-api.us-east-2.amazonaws.com/digykube-dev-ht/v3/results"
+    RESULTS_SUMMARY_URL: ``,
+    RESULTS_URL: ``
   },
   e2e: {
     specPattern: "**/*.feature",
@@ -67,6 +66,9 @@ module.exports = defineConfig({
       on('before:run', (spec) => {
         
         config.env.BUILD_ID = process.env.BUILD_ID;
+        config.env.RESULTS_SUMMARY_URL = `${process.env.RESULTS_SUMMARY_URL}`;
+        config.env.RESULTS_URL = `${process.env.RESULTS_URL}`;
+        config.env.REGION = `${process.env.REGION}`;
         if (!config.env.BUILD_ID) {
           throw 'BUILD_ID undefined'
         }
@@ -92,7 +94,7 @@ module.exports = defineConfig({
         const sessionId = sessionIds[sessionIds.length - 1] // would break with parallel execution
         DigyRunner.sendResult(config.env, results, sessionId)
 
-        const s3Client = await DigyUtils.setupS3(config.env.REGION)
+        const s3Client = await DigyUtils.setupS3()
         await DigyUtils.uploadConsoleLogs(s3Client, sessionId)
         await DigyUtils.uploadScreenshot(results, sessionId, s3Client)
 
