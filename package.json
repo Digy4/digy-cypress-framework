@@ -8,13 +8,13 @@
     "cy:open": "cypress open",
     
     "cy:chrome": "cypress run --browser chrome",
-    "cy:run:chrome": "cross-env DEBUG='cypress:cli:*,cypress:server:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:chrome 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
+    "cy:run:chrome": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:chrome 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
     
     "cy:edge": "cypress run --browser edge",
-    "cy:run:edge": "cross-env DEBUG='cypress:cli:*,cypress:server:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:edge 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
+    "cy:run:edge": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:edge 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
 
     "cy:firefox": "cypress run --browser firefox",
-    "cy:run:firefox": "cross-env DEBUG='cypress:cli:*,cypress:server:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:firefox 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
+    "cy:run:firefox": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:firefox 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
 
     "cy:run:parallel": "cypress run --record --key 169879a9-8789-439e-bd6c-7401a100e982 --browser chrome --parallel"
   },
