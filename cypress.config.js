@@ -7,16 +7,20 @@ const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
 const { defineConfig } = require("cypress");
-const dotenv = require('dotenv').config({ path: `./.env` })
+const dotenv = require('dotenv').config({ path: `./.env` });
+
 
 module.exports = defineConfig({
   videosFolder: "cypress/videos",
+  video: true,
+  screenshotOnRunFailure: false,
+  trashAssetsBeforeRuns: false,
   env: {
     REGION: ``,
     PROTOCOL: "http",
     HOSTNAME: "localhost",
-    PROJECT_NAME: "CypressProj",
-    TEAM_NAME: "Team Cypress",
+    PROJECT_NAME: "CypressProj3",
+    TEAM_NAME: "TeamCypress1",
     BUILD_ID: "",
     SUITE_NAME: "Regression",
     APP_VERSION: "2.0",
@@ -27,16 +31,22 @@ module.exports = defineConfig({
     BA: "Joe Bloggs",
     DEVELOPER: "Joe Bloggs",
     RESULTS_SUMMARY_URL: ``,
-    RESULTS_URL: ``
+    RESULTS_URL: ``,
+
+    TAGS: "@simple or @fail",
+    filterSpecs: true,
+    omitFiltered: true,
   },
   e2e: {
     specPattern: "**/*.feature",
     async setupNodeEvents(on, config) {
       const DigyRunner = require("./lib/DigyRunner.js")
       const DigyUtils = require("./lib/DigyUtils.js")
+      const tempConfig = require("./lib/temp.json")
       const { v4: uuidv4 } = require('uuid')
       const fs = require('fs')
 
+      const threadId = uuidv4()
       const sessionIds = []
       const errHandler = (err) => {
         if (err) {
@@ -54,17 +64,16 @@ module.exports = defineConfig({
           plugins: [createEsbuildPlugin(config)],
         })
       )
-
-      on('task', { // this would break if it ran on parallel execution
-        generate_sessionid(arg) {
-          const sessionId = uuidv4() 
-          sessionIds.push(sessionId)
-          return sessionId
+      
+      on('task', {
+        threadId() {
+          return threadId
         }
       })
 
       on('before:run', (spec) => {
         
+        console.log(`before run! ${threadId}`)
         config.env.BUILD_ID = process.env.BUILD_ID;
         config.env.RESULTS_SUMMARY_URL = `${process.env.RESULTS_SUMMARY_URL}`;
         config.env.RESULTS_URL = `${process.env.RESULTS_URL}`;
@@ -72,8 +81,9 @@ module.exports = defineConfig({
         if (!config.env.BUILD_ID) {
           throw 'BUILD_ID undefined'
         }
+
         DigyRunner.init({
-          id: uuidv4(),
+          id: tempConfig ? tempConfig.RESULTS_SUMMARY_ID : undefined,
           projectName: `${config.env.PROJECT_NAME}`,
           teamName: `${config.env.TEAM_NAME}`,
           buildId: `${config.env.BUILD_ID}`,
@@ -91,11 +101,14 @@ module.exports = defineConfig({
       
       on('after:spec', async (spec, results) => {
         
-        const sessionId = sessionIds[sessionIds.length - 1] // would break with parallel execution
+        console.log(`after spec! ${threadId}`)
+        const sessionId = uuidv4()
+        sessionIds.push(sessionId)
+
         DigyRunner.sendResult(config.env, results, sessionId)
 
         const s3Client = await DigyUtils.setupS3()
-        await DigyUtils.uploadConsoleLogs(s3Client, sessionId)
+        await DigyUtils.uploadDriverLogs(s3Client, sessionId, results, threadId)
         await DigyUtils.uploadScreenshot(results, sessionId, s3Client)
 
         // video not supported in firefox
@@ -103,15 +116,17 @@ module.exports = defineConfig({
           DigyUtils.videosPath = config.videosFolder
           await DigyUtils.uploadVideo(results, sessionId, s3Client)
         }
-
+        
       })
 
       on('after:run', async (results) => {
         
-        const sessionIdsPayload = {
-          SESSION_IDS: sessionIds
-        }
-        const sessionIdsJson = JSON.stringify(sessionIdsPayload)
+        console.log(`after run! ${threadId}`)
+        let sessionIdsFile = fs.readFileSync(`./lib/sessionIds.json`)
+        sessionIdsFile = JSON.parse(sessionIdsFile)
+        sessionIdsFile.SESSION_IDS = sessionIdsFile.SESSION_IDS.concat(sessionIds)
+
+        const sessionIdsJson = JSON.stringify(sessionIdsFile)
         fs.writeFileSync(`./lib/sessionIds.json`, sessionIdsJson, errHandler)
         
         DigyRunner.testResultSummary.passedCount = results.totalPassed

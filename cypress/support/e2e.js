@@ -20,16 +20,37 @@ import './commands'
 // require('./commands')
 
 // TODO: move this in a separate file inside of the support folder 
-let logs = ''
+/*
+let logs = {stuff: []}
 afterEach(() => {
   // TODO: make this configurable in cypress.config env
   cy.screenshot()
-  cy.task('generate_sessionid', {}).then((sessionId) => {
-    cy.writeFile(`cypress/logs/${sessionId}.txt`, logs)
-  }).then(() => logs = '')
+  cy.writeFile(`cypress/logs/whole_logs.json`, JSON.stringify(logs))
+})
+*/
+
+const logs = {}
+afterEach(() => {
+  cy.screenshot()
+  cy.task('threadId').then((threadId) => {
+    cy.writeFile(`cypress/logs/${threadId}.json`, JSON.stringify(logs))
+  })
 })
 
-Cypress.on('log:added', (log) => { // wouldn't logs get muddled with other tests in parallel execution?
-  const message = `[${log.wallClockStartedAt}] [${log.instrument.toUpperCase()}] ${log.consoleProps.Command}${log.message ? `: log.message` : ``}\n`
-  logs += message
+Cypress.on('log:added', (log) => {
+  if (!logs[log.testId]) {
+    logs[log.testId] = [];
+  }
+
+  const conciseLog = {
+    name: log.name.toUpperCase(),
+    message: log.message,
+    timestamp: log.wallClockStartedAt,
+
+    testId: log.testId,
+    id: log.id,
+    ...(log.displayName && {displayName: log.displayName})
+  }
+
+  logs[log.testId].push(conciseLog);
 })

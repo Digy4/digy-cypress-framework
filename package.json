@@ -6,17 +6,39 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    
-    "cy:chrome": "cypress run --browser chrome",
-    "cy:run:chrome": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:chrome 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
-    
-    "cy:edge": "cypress run --browser edge",
-    "cy:run:edge": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:edge 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
 
-    "cy:firefox": "cypress run --browser firefox",
-    "cy:run:firefox": "cross-env DEBUG='cypress:cli:*,cypress:lifecycle:*,cypress:launcher:*,cypress:config:*,cypress-cucumber-preprocessor' npm run cy:firefox 2> ./cypress/logs/driver_logs.txt && node ./lib/DigyDriverLogs.js",
 
-    "cy:run:parallel": "cypress run --record --key 169879a9-8789-439e-bd6c-7401a100e982 --browser chrome --parallel"
+    "cy:chrome": "cross-env DEBUG='cypress:cli' cypress run --browser chrome",
+    "precy:run:chrome": "node ./lib/pre-run.js",
+    "cy:run:chrome": "npm run cy:chrome 2> ./cypress/logs/console_logs.txt || (npm run postcy:run:chrome && exit 1)",
+    "postcy:run:chrome": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
+    
+    "cy:chrome:parallel": "cypress-parallel -s cy:chrome -t 2 -d cypress/e2e/**/d*.feature -v -m false",
+    "precy:run:chrome:parallel": "node ./lib/pre-run.js",
+    "cy:run:chrome:parallel": "npm run cy:chrome:parallel 2>> ./cypress/logs/console_logs.txt || (npm run postcy:run:chrome:parallel && exit 1)",
+    "postcy:run:chrome:parallel": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
+
+
+    "cy:edge": "cross-env DEBUG='cypress:cli' cypress run --browser edge",
+    "precy:run:edge": "node ./lib/pre-run.js",
+    "cy:run:edge": "npm run cy:edge 2> ./cypress/logs/console_logs.txt || (npm run postcy:run:edge && exit 1)",
+    "postcy:run:edge": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
+
+    "cy:edge:parallel": "cypress-parallel -s cy:edge -t 5 -d cypress/e2e/**/*.feature -v -m false",
+    "precy:run:edge:parallel": "node ./lib/pre-run.js",
+    "cy:run:edge:parallel": "npm run cy:edge:parallel 2>> ./cypress/logs/console_logs.txt || (npm run postcy:run:edge:parallel && exit 1)",
+    "postcy:run:edge:parallel": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
+
+    
+    "cy:firefox": "cross-env DEBUG='cypress:cli' cypress run --browser firefox",
+    "precy:run:firefox": "node ./lib/pre-run.js",
+    "cy:run:firefox": "npm run cy:firefox 2> ./cypress/logs/console_logs.txt || (npm run postcy:run:firefox && exit 1)",
+    "postcy:run:firefox": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
+
+    "cy:firefox:parallel": "cypress-parallel -s cy:firefox -t 5 -d cypress/e2e/**/*.feature -v -m false",
+    "precy:run:firefox:parallel": "node ./lib/pre-run.js",
+    "cy:run:firefox:parallel": "npm run cy:firefox:parallel 2>> ./cypress/logs/console_logs.txt || (npm run postcy:run:firefox:parallel && exit 1)",
+    "postcy:run:firefox:parallel": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +49,7 @@
     "aws-sdk": "^2.1257.0",
     "cross-env": "^7.0.3",
     "cypress": "^11.0.1",
+    "cypress-parallel": "^0.9.1",
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",

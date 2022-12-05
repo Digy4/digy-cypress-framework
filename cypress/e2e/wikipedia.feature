@@ -1,7 +1,7 @@
 Feature: wikipedia.org
   Background:
     Given I am in "https://en.wikipedia.org/wiki/Main_Page"
-
+  @long
   Scenario: looking at ant stuff
     When I type "ant" to input field "[name='search']"
     And I click the button/link "#searchButton"

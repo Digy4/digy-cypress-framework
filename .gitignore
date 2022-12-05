@@ -44,3 +44,5 @@ cypress/videos/
 cypress/logs/
 
 .env
+
+runner-results/
