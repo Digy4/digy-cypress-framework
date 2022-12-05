@@ -33,12 +33,12 @@ module.exports = defineConfig({
     RESULTS_SUMMARY_URL: ``,
     RESULTS_URL: ``,
 
-    TAGS: "@simple or @fail",
+    TAGS: "",
     filterSpecs: true,
     omitFiltered: true,
   },
   e2e: {
-    specPattern: "**/*.feature",
+    specPattern: "cypress/e2e/**/*.feature",
     async setupNodeEvents(on, config) {
       const DigyRunner = require("./lib/DigyRunner.js")
       const DigyUtils = require("./lib/DigyUtils.js")

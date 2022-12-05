@@ -13,7 +13,7 @@
     "cy:run:chrome": "npm run cy:chrome 2> ./cypress/logs/console_logs.txt || (npm run postcy:run:chrome && exit 1)",
     "postcy:run:chrome": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
     
-    "cy:chrome:parallel": "cypress-parallel -s cy:chrome -t 2 -d cypress/e2e/**/d*.feature -v -m false",
+    "cy:chrome:parallel": "cypress-parallel -s cy:chrome -t 5 -d cypress/e2e/**/*.feature -v -m false",
     "precy:run:chrome:parallel": "node ./lib/pre-run.js",
     "cy:run:chrome:parallel": "npm run cy:chrome:parallel 2>> ./cypress/logs/console_logs.txt || (npm run postcy:run:chrome:parallel && exit 1)",
     "postcy:run:chrome:parallel": "node ./lib/DigyConsoleLogs.js && node ./lib/post-run.js",
