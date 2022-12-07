@@ -2,6 +2,12 @@
 ## How to setup
 * Clone this project into your local machine
 * Run `npm install` in your terminal / command prompt
+* Create a `.env` file at the root of this project and define the following environment variables:
+  * RESULTS_SUMMARY_URL=\<results summary url>
+  * RESULTS_URL=\<results url>
+  * REGION=\<region>
+  * SECRET_KEY=\<secret key>
+  * ACCESS_KEY=\<access key>
 
 ## How to run
 * Run `npm run cy:open` for GUI test suite

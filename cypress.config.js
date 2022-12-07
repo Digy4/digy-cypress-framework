@@ -75,11 +75,14 @@ module.exports = defineConfig({
         
         console.log(`before run! ${threadId}`)
         config.env.BUILD_ID = process.env.BUILD_ID;
-        config.env.RESULTS_SUMMARY_URL = `${process.env.RESULTS_SUMMARY_URL}`;
-        config.env.RESULTS_URL = `${process.env.RESULTS_URL}`;
-        config.env.REGION = `${process.env.REGION}`;
+        config.env.RESULTS_SUMMARY_URL = process.env.RESULTS_SUMMARY_URL;
+        config.env.RESULTS_URL = process.env.RESULTS_URL;
+        config.env.REGION = process.env.REGION;
+        if (!(config.env.RESULTS_SUMMARY_URL && config.env.RESULTS_URL && config.env.REGION)) {
+          throw new Error('missing environment variables!')
+        }
         if (!config.env.BUILD_ID) {
-          throw 'BUILD_ID undefined'
+          throw new Error('build id is undefined!')
         }
 
         DigyRunner.init({
