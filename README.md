@@ -21,5 +21,4 @@
 ## Where to add tests and step-definitions
 * All tests must be BDD and have only one scenario per feature file
 * Feature files, by default, must be created in `cypress/e2e` but can be changed by altering the specPattern property in cypress.config.js
-* Step-definitions for a particular feature file must be created with the same name as the feature file
-* Step-definitions for multiple feature files must be created in `cypress/e2e/step_definitions/` 
+* Step-definitions files must be created in `cypress/e2e/step_definitions/` 
