@@ -38,23 +38,13 @@ module.exports = defineConfig({
     omitFiltered: true,
   },
   e2e: {
-    specPattern: "cypress/e2e/**/*.feature",
+    //specPattern: "cypress/e2e/**/*.feature",
+    specPattern: "cypress/e2e/duckduckgo.feature",
     async setupNodeEvents(on, config) {
       const DigyRunner = require("./lib/DigyRunner.js")
-      const DigyUtils = require("./lib/DigyUtils.js")
-      const tempConfig = require("./lib/temp.json")
       const { v4: uuidv4 } = require('uuid')
-      const fs = require('fs')
 
       const threadId = uuidv4()
-      const sessionIds = []
-      const errHandler = (err) => {
-        if (err) {
-          console.log("SOMETHING WENT WRONG WRITING THE FILE: ", err);
-          return;
-        }
-        console.log("SOMETHING WENT WRONG WRITING THE FILE AND I DON'T KNOW WHAT");
-      };
 
       await addCucumberPreprocessorPlugin(on, config)
 
@@ -72,70 +62,18 @@ module.exports = defineConfig({
       })
 
       on('before:run', (spec) => {
-        
         console.log(`before run! ${threadId}`)
-        config.env.BUILD_ID = process.env.BUILD_ID;
-        config.env.RESULTS_SUMMARY_URL = process.env.RESULTS_SUMMARY_URL;
-        config.env.RESULTS_URL = process.env.RESULTS_URL;
-        config.env.REGION = process.env.REGION;
-        if (!(config.env.RESULTS_SUMMARY_URL && config.env.RESULTS_URL && config.env.REGION)) {
-          throw new Error('missing environment variables!')
-        }
-        if (!config.env.BUILD_ID) {
-          throw new Error('build id is undefined!')
-        }
-
-        DigyRunner.init({
-          id: tempConfig ? tempConfig.RESULTS_SUMMARY_ID : undefined,
-          projectName: `${config.env.PROJECT_NAME}`,
-          teamName: `${config.env.TEAM_NAME}`,
-          buildId: `${config.env.BUILD_ID}`,
-          suiteName: `${config.env.SUITE_NAME}`,
-          appVersion: `${config.env.APP_VERSION}`,
-          environment: `${config.env.ENVIRONMENT}`,
-          framework: `${config.env.FRAMEWORK}`,
-          moduleName: `${config.env.MODULE_NAME}`,
-          tester: `${config.env.TESTER}`,
-          ba: `${config.env.BA}`,
-          developer: `${config.env.DEVELOPER}`
-        }, spec, config.env);
-        
+        DigyRunner.init(spec, config.env);
       })
       
       on('after:spec', async (spec, results) => {
-        
         console.log(`after spec! ${threadId}`)
-        const sessionId = uuidv4()
-        sessionIds.push(sessionId)
-
-        DigyRunner.sendResult(config.env, results, sessionId)
-
-        const s3Client = await DigyUtils.setupS3()
-        await DigyUtils.uploadDriverLogs(s3Client, sessionId, results, threadId)
-        await DigyUtils.uploadScreenshot(results, sessionId, s3Client)
-
-        // video not supported in firefox
-        if (DigyRunner.metaData.browserName !== 'firefox') {
-          DigyUtils.videosPath = config.videosFolder
-          await DigyUtils.uploadVideo(results, sessionId, s3Client)
-        }
-        
+        await DigyRunner.sendResult(config, results, threadId)
       })
 
       on('after:run', async (results) => {
-        
         console.log(`after run! ${threadId}`)
-        let sessionIdsFile = fs.readFileSync(`./lib/sessionIds.json`)
-        sessionIdsFile = JSON.parse(sessionIdsFile)
-        sessionIdsFile.SESSION_IDS = sessionIdsFile.SESSION_IDS.concat(sessionIds)
-
-        const sessionIdsJson = JSON.stringify(sessionIdsFile)
-        fs.writeFileSync(`./lib/sessionIds.json`, sessionIdsJson, errHandler)
-        
-        DigyRunner.testResultSummary.passedCount = results.totalPassed
-        DigyRunner.testResultSummary.failedCount = results.totalFailed
-        await DigyRunner.sendResultSummary(config.env, 'Completed')
-        
+        await DigyRunner.sendResultSummary(config.env, 'Completed', results)
       })
 
       return config
