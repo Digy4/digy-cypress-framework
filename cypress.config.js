@@ -15,10 +15,9 @@ module.exports = defineConfig({
   screenshotOnRunFailure: false,
   trashAssetsBeforeRuns: false,
   digyRunnerConfig: {
-    REGION: ``,
     PROTOCOL: "http",
     HOSTNAME: "localhost",
-    PROJECT_NAME: "CypressProj3",
+    PROJECT_NAME: "Digy4TestProject",
     TEAM_NAME: "TeamCypress1",
     BUILD_ID: "",
     SUITE_NAME: "Regression",
@@ -31,7 +30,10 @@ module.exports = defineConfig({
     DEVELOPER: "Joe Bloggs",
     RESULTS_SUMMARY_URL: ``,
     RESULTS_URL: ``,
-
+    CLIENT_ID: ``,
+    CLIENT_SECRET: ``,
+    PROJECT_PLAN_URL: ``,
+    LOGS_UPLOAD_BASE_URL: ``,
     TAGS: "",
     filterSpecs: true,
     omitFiltered: true,
