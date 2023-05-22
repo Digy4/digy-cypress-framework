@@ -39,8 +39,7 @@ module.exports = defineConfig({
     omitFiltered: true,
   },
   e2e: {
-    //specPattern: "cypress/e2e/**/*.feature",
-    specPattern: "cypress/e2e/duckduckgo.feature",
+    specPattern: "cypress/e2e/**/*.feature",
     async setupNodeEvents(on, config) {
 
       await addCucumberPreprocessorPlugin(on, config)
