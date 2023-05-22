@@ -5,9 +5,10 @@
 * Create a `.env` file at the root of this project and define the following environment variables:
   * RESULTS_SUMMARY_URL=\<results summary url>
   * RESULTS_URL=\<results url>
-  * REGION=\<region>
-  * SECRET_KEY=\<secret key>
-  * ACCESS_KEY=\<access key>
+  * CLIENT_ID=\<Digy4 client id>
+  * CLIENT_SECRET=\<Digy4 client secret>
+  * PROJECT_PLAN_URL=\<project plan details url>
+  * LOGS_UPLOAD_BASE_URL=\<Base url for logs upload>
 
 ## How to run
 * Run `npm run cy:open` for GUI test suite
@@ -21,4 +22,4 @@
 ## Where to add tests and step-definitions
 * All tests must be BDD and have only one scenario per feature file
 * Feature files, by default, must be created in `cypress/e2e` but can be changed by altering the specPattern property in cypress.config.js
-* Step-definitions files must be created in `cypress/e2e/step_definitions/` 
+* Step-definitions files must be created in `cypress/e2e/step_definitions/`
