@@ -7,7 +7,7 @@ const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
 const { defineConfig } = require("cypress");
-const DigyRunner = require("./lib/DigyRunner.js");
+const { DigyRunner } = require("@digy4/digyrunner-cypress");
 
 module.exports = defineConfig({
   videosFolder: "cypress/videos",
