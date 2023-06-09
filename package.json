@@ -1,0 +1,32 @@
+{
+  "name": "digy-cypress-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:open": "cypress open",
+    "cy:chrome": "cross-env DEBUG='cypress:cli' cypress run --browser chrome",
+    "cy:run:chrome": "mkdir -p ./cypress/logs && (npm run cy:chrome 2>&1 | tee -a ./cypress/logs/terminal_log.txt)",
+    "cy:edge": "cross-env DEBUG='cypress:cli' cypress run --browser edge",
+    "cy:run:edge": "mkdir -p ./cypress/logs && (npm run cy:edge 2>&1 | tee -a ./cypress/logs/terminal_log.txt)",
+    "cy:firefox": "cross-env DEBUG='cypress:cli' cypress run --browser firefox",
+    "cy:run:firefox": "mkdir -p ./cypress/logs && (npm run cy:firefox 2>&1 | tee -a ./cypress/logs/terminal_log.txt)"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^14.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
+    "cross-env": "^7.0.3",
+    "cypress": "^11.0.1",
+    "cypress-multi-reporters": "^1.6.1",
+    "cypress-parallel": "^0.9.1",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "@digy4/digyrunner-cypress": "^0.0.10"
+  },
+  "devDependencies": {
+  }
+}
