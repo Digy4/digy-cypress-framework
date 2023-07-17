@@ -3,12 +3,8 @@
 * Clone this project into your local machine
 * Run `npm install` in your terminal / command prompt
 * Create a `.env` file at the root of this project and define the following environment variables:
-  * RESULTS_SUMMARY_URL=\<results summary url>
-  * RESULTS_URL=\<results url>
-  * CLIENT_ID=\<Digy4 client id>
-  * CLIENT_SECRET=\<Digy4 client secret>
-  * PROJECT_PLAN_URL=\<project plan details url>
-  * LOGS_UPLOAD_BASE_URL=\<Base url for logs upload>
+  * CLIENT_ID: \<Digy4 client id>
+  * CLIENT_SECRET: \<Digy4 client secret>
 
 ## How to run
 * Run `npm run cy:open` for GUI test suite
