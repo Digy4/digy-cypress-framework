@@ -8,7 +8,7 @@
 
 ## How to run
 * Run `npm run cy:open` for GUI test suite
-* (Windows) Run `set "PROJECT_NAME=<projectName>" set "BUILD_ID=<id>" && npm run cy:run:<browser>` where \<browser> can be either chrome | edge | firefox 
+* (Windows) `Run "cy:run:chromewindows": "powershell mkdir .\\cypress\\logs && (powershell npm run cy:<browser> 2>&1 ^| tee-object -FilePath .\\cypress\\logs\\terminal_log.txt)"`, where \<browser> can be either chrome | edge | firefox 
 * (Mac) Run `PROJECT_NAME=<projectName> BUILD_ID=<id> npm run cy:run:<browser>` where \<browser> can be either chrome | edge | firefox
 * To filter tests by tags, change the `TAGS` property in `cypress.config.js` under the `env` object - eg. `TAGS: "@simple or @fail"`
 
