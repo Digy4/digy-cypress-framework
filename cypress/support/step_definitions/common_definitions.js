@@ -4,35 +4,35 @@ const goToUrl = (urlStr) => {
   cy.visit(urlStr)
 };
 
-const scrollToElement = async (selector) => {
+const scrollToElement = (selector) => {
   cy.get(`${selector}`).scrollIntoView({block: "center"})
 }
 
-const clickElement = async (selector) => {
+const clickElement = (selector) => {
   cy.get(`${selector}`).first().click()
 }
 
-const selectByValue = async (attrVal, selector) => {
+const selectByValue = (attrVal, selector) => {
   cy.get(`${selector}`).select(attrVal)
 };
 
-const setKeys = async (key, selector) => {
+const setKeys = (key, selector) => {
   cy.get(`${selector}`).focus().type(key, {force: true}) // added focus and force:true because Firefox
 };
 
-const urlContains = async (urlSubstring) => {
+const urlContains = (urlSubstring) => {
   cy.url().should('include', urlSubstring)
 };
 
-const urlNotContains = async (urlSubstring) => {
+const urlNotContains = (urlSubstring) => {
   cy.url().should('not.include', urlSubstring)
 };
 
-const expectElement = async (selector, content) => {
+const expectElement = (selector, content) => {
   cy.get(`${selector}=${content}`)
 }
 
-const expectElementPartial = async (selector, content) => {
+const expectElementPartial = (selector, content) => {
   cy.get(`${selector}*=${content}`)
 }
 
@@ -46,7 +46,7 @@ When(/^I select "([^"]*)?" from the dropdown "([^"]*)?"$/, selectByValue);
 
 When(/^I scroll to "([^"]*)?"$/, scrollToElement);
 
-When(/^I go back$/, async () => await browser.back());
+When(/^I go back$/, () => browser.back());
 
 When(/^I go to "([^"]*)?"$/, goToUrl);
 

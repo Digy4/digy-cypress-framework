@@ -1,6 +1,6 @@
 import {Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-const clickArticle = async (number) => {
+const clickArticle = (number) => {
   cy.get(`.hnuser`).eq(number).click({force:true})
   cy.wait(5000)
   cy.go('back')
