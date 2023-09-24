@@ -12,6 +12,7 @@ const { DigyRunner } = require("@digy4/digyrunner-cypress");
 module.exports = defineConfig({
   videosFolder: "cypress/videos",
   video: true,
+  videoCompression: true,
   screenshotOnRunFailure: false,
   trashAssetsBeforeRuns: false,
   digyRunnerConfig: {
