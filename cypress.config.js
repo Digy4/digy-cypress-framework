@@ -38,9 +38,16 @@ module.exports = defineConfig({
     filterSpecs: true,
     omitFiltered: true,
     TEST_TYPE: "WEB"
+    //TEST_TYPE: "API"
+    //TEST_TYPE: "HYBRID"
   },
   e2e: {
-    specPattern: "cypress/e2e/**/*.feature",
+    //specPattern: "cypress/e2e/hybrid_tests.js", //set TEST_TYPE: "HYBRID"
+    //specPattern: "cypress/e2e/api_tests.js", //set TEST_TYPE: "API"
+    //specPattern: "cypress/e2e/**/*.js", //set TEST_TYPE: "HYBRID"
+    //specPattern: "cypress/e2e/**/demoguru.feature", //set TEST_TYPE: "WEB"
+    specPattern: "cypress/e2e/**/*.feature", //set TEST_TYPE: "WEB"
+
     async setupNodeEvents(on, config) {
 
       await addCucumberPreprocessorPlugin(on, config)
