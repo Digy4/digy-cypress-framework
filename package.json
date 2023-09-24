@@ -24,7 +24,7 @@
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^18.0.5",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "@digy4/digyrunner-cypress": "^0.0.36",
+    "@digy4/digyrunner-cypress": "^0.0.43",
     "cross-env": "^7.0.3",
     "cypress": "^13.1.0",
     "cypress-multi-reporters": "^1.6.1",

@@ -37,9 +37,14 @@ module.exports = defineConfig({
     TAGS: "",
     filterSpecs: true,
     omitFiltered: true,
+    TEST_TYPE: "HYBRID",
   },
   e2e: {
-    specPattern: "cypress/e2e/**/*.feature",
+    //specPattern: "cypress/e2e/hybrid_tests.js",
+    //specPattern: "cypress/e2e/api_tests.js",
+    //specPattern: "cypress/e2e/**/demoguru.feature",
+    //specPattern: "cypress/e2e/**/*.feature",
+    specPattern: "cypress/e2e/**/*.js",
     async setupNodeEvents(on, config) {
 
       await addCucumberPreprocessorPlugin(on, config)
