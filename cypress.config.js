@@ -36,7 +36,8 @@ module.exports = defineConfig({
     LOGS_UPLOAD_BASE_URL: ``,
     TAGS: "",
     filterSpecs: true,
-    omitFiltered: true
+    omitFiltered: true,
+    TEST_TYPE: "WEB"
   },
   e2e: {
     specPattern: "cypress/e2e/**/*.feature",
