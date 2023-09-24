@@ -19,21 +19,26 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-// TODO: move this in a separate file inside of the support folder 
-/*
-let logs = {stuff: []}
-afterEach(() => {
-  // TODO: make this configurable in cypress.config env
-  cy.screenshot()
-  cy.writeFile(`cypress/logs/whole_logs.json`, JSON.stringify(logs))
-})
-*/
+before(() => {
+  Cypress.env('API_LOGS_BY_TEST_INDEX', []);
+  Cypress.env('TEST_INDEX', 0);
+});
+
+beforeEach(() => {
+  Cypress.env('API_LOGS', []);
+});
 
 const logs = {}
 afterEach(() => {
   cy.screenshot()
   cy.task('threadId').then((threadId) => {
     cy.writeFile(`cypress/logs/${threadId}.json`, JSON.stringify(logs))
+    let currentIndex = Cypress.env('TEST_INDEX');
+    let apiLogsForSpec = Cypress.env('API_LOGS_BY_TEST_INDEX');
+    apiLogsForSpec[currentIndex] = Cypress.env('API_LOGS');
+    Cypress.env('API_LOGS_BY_TEST_INDEX', apiLogsForSpec);
+    cy.writeFile(`cypress/logs/${threadId}-apilogs.json`, JSON.stringify(apiLogsForSpec))
+    Cypress.env('TEST_INDEX', currentIndex + 1);
   })
 })
 
@@ -51,6 +56,5 @@ Cypress.on('log:added', (log) => {
     id: log.id,
     ...(log.displayName && {displayName: log.displayName})
   }
-
   logs[log.testId].push(conciseLog);
 })
