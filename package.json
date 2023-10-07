@@ -28,7 +28,7 @@
     "cross-env": "^7.0.3",
     "cypress": "^13.1.0",
     "cypress-multi-reporters": "^1.6.1",
-    "cypress-parallel": "^0.9.1",
+    "cypress-parallel": "^0.13.0",
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
