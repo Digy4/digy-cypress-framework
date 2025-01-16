@@ -8,7 +8,7 @@
     "cy:open": "cypress open",
     "cy:chrome": "cross-env DEBUG='cypress:cli' cypress run --browser chrome",
     "cy:run:chrome": "mkdir -p ./cypress/logs && (npm run cy:chrome 2>&1 | tee ./cypress/logs/terminal_log.txt)",
-    "cy:run:chromewindows": "powershell mkdir .\\cypress\\logs && (powershell npm run cy:chrome 2>&1 ^| tee-object -FilePath .\\cypress\\logs\\terminal_log.txt)",
+    "cy:run:chromewindows": "powershell mkdir .\\cypress\\logs -Force && (powershell npm run cy:chrome 2>&1 ^| tee-object -FilePath .\\cypress\\logs\\terminal_log.txt)",
     "cy:chrome:parallel": "npx cypress-parallel -s cy:chrome -t 5 -d cypress/e2e/ -v -m false",
     "cy:run:chrome:parallel": "mkdir -p ./cypress/logs && (npm run cy:chrome:parallel 2>&1 | tee ./cypress/logs/terminal_log.txt)",
     "cy:edge": "cross-env DEBUG='cypress:cli' cypress run --browser edge",
