@@ -32,7 +32,7 @@
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
-    "@digy4/digyrunner-cypress": "^0.0.47"
+    "@digy4/digyrunner-cypress": "^0.0.48"
   },
   "devDependencies": {
   }
