@@ -15,7 +15,7 @@ describe('api_test', () => {
 				Cypress.env('API_LOGS').push({
 					"title": "GET request",
 					"request": JSON.stringify({}),
-					"response": JSON.stringify(response)
+					"response": JSON.stringify(response, null, 2)
 				});
 				expect(response.status).to.equal(200);
 				expect(response.body.page).to.equal(2);
@@ -36,8 +36,8 @@ describe('api_test', () => {
 			.then((response) => {
 				Cypress.env('API_LOGS').push({
 					"title": "POST request",
-					"request": JSON.stringify(reqBody),
-					"response": JSON.stringify(response)
+					"request": JSON.stringify(reqBody, null, 2),
+					"response": JSON.stringify(response, null, 2)
 				});
 				expect(response.status).to.equal(200);
 				expect(response.body.page).to.equal(2);
