@@ -23,10 +23,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^18.0.5",
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "cross-env": "^7.0.3",
-    "cypress": "^13.1.0",
+    "cypress": "^13.13.0",
     "cypress-multi-reporters": "^1.6.1",
     "cypress-parallel": "^0.9.1",
     "debug": "^4.3.4",
