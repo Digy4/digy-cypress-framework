@@ -9,6 +9,18 @@ const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-pr
 const { defineConfig } = require("cypress");
 const { DigyRunner } = require("@digy4/digyrunner-cypress");
 
+const plugin1 = (on) => {
+  on('before:run', (details) => console.log('[Plugin #1] Running before:run'));
+  on('after:spec', (details) => console.log('[Plugin #1] Running after:spec'));
+  on('after:run', (details) => console.log('[Plugin #1] Running after:run'));
+};
+
+const plugin2 = (on) => {
+  on('before:run', (details) => console.log('[Plugin #2] Running before:run'));
+  on('after:spec', (details) => console.log('[Plugin #2] Running after:spec'));
+  on('after:run', (details) => console.log('[Plugin #2] Running after:run'));
+};
+
 module.exports = defineConfig({
   videosFolder: "cypress/videos",
   video: true,
@@ -60,7 +72,7 @@ module.exports = defineConfig({
         })
       )
 
-      await DigyRunner.setup(on, config);
+      await DigyRunner.setup(on, config, [plugin1, plugin2]);
 
       return config
     },
