@@ -1,5 +1,8 @@
 describe('hybrid_test', () => {
 	before(() => {
+		cy.log(
+			'Running hybrid test'
+		)
 	});
 
 	it('Should successfully go to url and call the API', () => {
@@ -46,4 +49,7 @@ describe('hybrid_test', () => {
 			});
 	});
 
+	after( () => { 
+		cy.log('Done hybrid test')
+	})
 });

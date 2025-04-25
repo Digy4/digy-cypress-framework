@@ -30,17 +30,17 @@ module.exports = defineConfig({
   digyRunnerConfig: {
     PROTOCOL: "http",
     HOSTNAME: "localhost",
-    PROJECT_NAME: "demo",
-    TEAM_NAME: "Team",
+    PROJECT_NAME: "TESTNG",
+    TEAM_NAME: "CYPRESS",
     BUILD_ID: "",
-    SUITE_NAME: "Regression",
+    SUITE_NAME: "SAIKOT",
     APP_VERSION: "2.0",
     ENVIRONMENT: "test",
     FRAMEWORK: "cypress", // don't change
-    MODULE_NAME: "SomeModuleName",
-    TESTER: "Joe Bloggs",
-    BA: "Joe Bloggs",
-    DEVELOPER: "Joe Bloggs",
+    MODULE_NAME: "SPEC TESTING",
+    TESTER: "SAIKOT",
+    BA: "SAIKOT",
+    DEVELOPER: "SAIKOT",
     RESULTS_SUMMARY_URL: ``,
     RESULTS_URL: ``,
     CLIENT_ID: ``,
@@ -50,16 +50,16 @@ module.exports = defineConfig({
     TAGS: "",
     filterSpecs: true,
     omitFiltered: true,
-    TEST_TYPE: "WEB"
-    //TEST_TYPE: "API"
-    //TEST_TYPE: "HYBRID"
+    // TEST_TYPE: "WEB",
+    // TEST_TYPE: "API",
+    TEST_TYPE: "HYBRID"
   },
   e2e: {
     //specPattern: "cypress/e2e/hybrid_tests.js", //set TEST_TYPE: "HYBRID"
     //specPattern: "cypress/e2e/api_tests.js", //set TEST_TYPE: "API"
-    //specPattern: "cypress/e2e/**/*.js", //set TEST_TYPE: "HYBRID"
+    specPattern: "cypress/e2e/**/*-spec.cy.js", //set TEST_TYPE: "HYBRID"
     //specPattern: "cypress/e2e/**/demoguru.feature", //set TEST_TYPE: "WEB"
-    specPattern: "cypress/e2e/**/*.feature", //set TEST_TYPE: "WEB"
+    // specPattern: "cypress/e2e/**/*.feature", //set TEST_TYPE: "WEB"
 
     async setupNodeEvents(on, config) {
 
