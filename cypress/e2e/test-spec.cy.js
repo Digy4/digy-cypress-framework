@@ -13,48 +13,48 @@ describe('Mock test', () => {
             cy.log('Current url: ', current)
         })
     }
-    
-    beforeEach(() => { 
+
+    before(() => { 
         cy.fixture("login").as("loginData")
         cy.visit(`https://rca-ai.digy4.com/auth/login`)
-        
+
         cy.get("@loginData").then(({ username, password}) => { 
             cy.get("#userName").type(username)
             cy.get("#password").type(password)
             cy.get('#__next > div > div.css-16w0eca > form > div > div > div:nth-child(4) > button').click()
+            cy.wait(10000)
         })
-        cy.wait(10000)
     })
 
     
     // Backend
     it('Invalid token', () => { 
-        visitPage(`${baseUrl}/${backendRoute}/invalid-token`)
+        cy.visit(`${baseUrl}/${backendRoute}/invalid-token`)
         cy.wait(3000)
         cy.get("#WeatherHeader")
         .should('have.text', 'WeatherHeader')
     })
     
     it('Payload page', () => { 
-        visitPage(`${baseUrl}/${backendRoute}/payload`)
+        cy.visit(`${baseUrl}/${backendRoute}/payload`)
         cy.get("#WeatherHeader")
         .should('have.text', 'WeatherHeader')
     })
     
     it('Wrong method', () => { 
-        visitPage(`${baseUrl}/${backendRoute}/wrong-method`)
+        cy.visit(`${baseUrl}/${backendRoute}/wrong-method`)
         cy.get("#WeatherHeader")
         .should('have.text', 'WeatherHeader')
     })
 
     // Frontend
     it('Modal popup page', () => { 
-        visitPage(`${baseUrl}/error`)
+        cy.visit(`${baseUrl}/error`)
         cy.get('#ClickerButton')
         .should('have.text', 'ClickerButton')
     })
 
-    it('Javascript button', () => { 
+    it('Javascript button', () => {
         
         cy.on('uncaught:exception', (err) => {
             throw err
@@ -66,24 +66,24 @@ describe('Mock test', () => {
     })
 
     it('Disappear page', () => { 
-        visitPage(`${baseUrl}/${frontendRoute}/disappear-page`)
+        cy.visit(`${baseUrl}/${frontendRoute}/disappear-page`)
         cy.get("#WeatherHeader")
         .should('have.text', 'WeatherHeader')
     })
     
     it('Overwrite page', () => { 
-        visitPage(`${baseUrl}/${frontendRoute}/overwrite`)
+        cy.visit(`${baseUrl}/${frontendRoute}/overwrite`)
         cy.get("#WeatherHeader")
         .should('have.text', 'WeatherHeader')
     })
 
     // Redirect
-    it('Visit errors page', () => { 
+    it('Visit errors page', () => {
         visitPage(`${baseUrl}/error`)
         cy.url().should('eq', `${baseUrl}/errors`)
     })
 
-    it('Land on homepage', () => { 
+    it('Land on homepage', () => {
         cy.url()
         .should('eq', 'https://rca-ai.digy4.com/')
         .then(current => { 
