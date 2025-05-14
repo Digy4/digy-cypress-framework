@@ -189,6 +189,106 @@ describe('Frontend tests', () => {
             const popup = win.open('', '', 'width=400,height=400');
             cy.wrap(popup.document).get('#popup-button').click(); // Fails: Cypress can't cross window boundaries
         });
-});
+    });
+
+    // Attempt to find option elements inside the select
+    it('Should display dropdown with options', () => {
+        
+        const url = createUrl('buggy-select')
+        visitPage()
+        cy.get('#buggy-chakra-select')
+        .find('option')
+        .should('have.length.at.least', 1);
+    });
+
+    it('Missing binding', () => {
+        const url = createUrl('missing binding')
+        visitPage(url)
+
+        // Click the button
+        cy.get('#buggy-click-button').click()
+
+        cy.get('[data-testid="click-status"]')
+        .should('contain.text', 'Clicked!')
+    })
+
+    it('should navigate to external site (but it closes instead)', () => {
+        const url = createUrl('redirect')
+        visitPage(url)
+
+        cy.get('#external-redirect-button').click()
+
+        // Supposed to visit redirect, but closed before even able to check
+        cy.url().should('include', 'example.com')
+    })
+
+    // When toggled alerts, otherwise does not
+    it('Should display the conditional alert on click by default', () => {
+        const url = createUrl('conditional-alert')  
+        visitPage(url)
+
+        cy.on('window:alert', (msg) => {
+            expect(msg).to.equal('Conditional alert!')
+        })
+
+        cy.get('#conditional-alert-button').click()
+    })
+
+    // Cannot click button since alert is blocking interaction
+    it('should trigger interaction alert on button click (fails)', () => {
+        const url = createUrl('trigger-alert')  
+        visitPage(url)
+
+        cy.on('window:alert', (msg) => {
+            expect(msg).to.equal('Alert on interaction!')
+        })
+
+        cy.get('#hidden-button-alert').click()
+    })
+
+    // Read‐Only Field stays locked — user can’t type into the input
+    it('ReadonlyFieldDemo: input remains readonly when locked', () => {
+        const url = createUrl('read-only');
+        visitPage(url);
+
+        // Verify checkbox locks the field
+        cy.get('input[type="checkbox"]').should('be.checked');
+        // Attempt to type — should have no effect
+        cy.get('input[placeholder="Enter text..."]')
+            .type('Hello, world!')
+            .should('have.value', '');               
+    });
+
+    // Button never re-enables after completing
+    it('StateDisableDemo: Complete Task button becomes disabled and never toggles back', () => {
+        const url = createUrl('state-disable');
+        visitPage(url);
+
+        // Initially enabled
+        cy.contains('Complete Task').should('not.be.disabled');
+        // Click to complete
+        cy.contains('Complete Task').click();
+        // Label changes and button is disabled
+        cy.contains('Completed').should('be.disabled');
+        // Try clicking again programmatically
+        cy.contains('Completed').click({ force: true });
+        // Still disabled
+        cy.contains('Completed').should('be.disabled');
+    });
+
+    // toggling hides the form and you can’t interact with hidden inputs
+    it('ConditionalHideDemo: form disappears and its fields are unfindable', () => {
+        const url = createUrl('conditional-hide');
+        visitPage(url);
+
+        // Show the form
+        cy.contains('Show Form').click();
+        cy.get('input[placeholder="Name"]').should('exist');
+
+        // Hide the form
+        cy.contains('Hide Form').click();
+        // Form container should be removed entirely
+        cy.get('input[placeholder="Name"]').should('not.exist');
+    });
 
 })
