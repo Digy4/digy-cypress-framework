@@ -57,7 +57,7 @@ module.exports = defineConfig({
   e2e: {
     //specPattern: "cypress/e2e/hybrid_tests.js", //set TEST_TYPE: "HYBRID"
     //specPattern: "cypress/e2e/api_tests.js", //set TEST_TYPE: "API"
-    specPattern: "cypress/e2e/**/*-spec.cy.js", //set TEST_TYPE: "HYBRID"
+    specPattern: "cypress/e2e/**/backend-spec.cy.js", //set TEST_TYPE: "HYBRID"
     //specPattern: "cypress/e2e/**/demoguru.feature", //set TEST_TYPE: "WEB"
     // specPattern: "cypress/e2e/**/*.feature", //set TEST_TYPE: "WEB"
 
